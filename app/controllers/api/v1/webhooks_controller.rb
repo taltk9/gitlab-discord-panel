@@ -9,7 +9,7 @@ module Api::V1
       render json: @webhooks
     end
 
-    # GET /v1/webhooks/1
+    # GET /v1/webhooks/:id
     def show
       render json: @webhook
     end
@@ -19,13 +19,13 @@ module Api::V1
       @webhook = Webhook.new(webhook_params)
 
       if @webhook.save
-        render json: @webhook, status: :created, location: @webhook
+        render json: @webhook, status: :created
       else
         render json: @webhook.errors, status: :unprocessable_entity
       end
     end
 
-    # PATCH/PUT /v1/webhooks/1
+    # PATCH/PUT /v1/webhooks/:id
     def update
       if @webhook.update(webhook_params)
         render json: @webhook
@@ -34,7 +34,7 @@ module Api::V1
       end
     end
 
-    # DELETE /v1/webhooks/1
+    # DELETE /v1/webhooks/:id
     def destroy
       @webhook.destroy
     end

@@ -29,11 +29,11 @@ RSpec.describe Api::V1::WebhooksController, type: :controller do
   # Webhook. As you add validations to Webhook, be sure to
   # adjust the attributes here as well.
   let(:valid_attributes) {
-    skip("Add a hash of attributes valid for your model")
+    attributes_for(:webhook)
   }
 
   let(:invalid_attributes) {
-    skip("Add a hash of attributes invalid for your model")
+    attributes_for(:invalid_webhook)
   }
 
   # This should return the minimal set of values that should be in the session
@@ -70,7 +70,6 @@ RSpec.describe Api::V1::WebhooksController, type: :controller do
         post :create, params: {webhook: valid_attributes}, session: valid_session
         expect(response).to have_http_status(:created)
         expect(response.content_type).to eq('application/json')
-        expect(response.location).to eq(webhook_url(Webhook.last))
       end
     end
 
@@ -86,15 +85,19 @@ RSpec.describe Api::V1::WebhooksController, type: :controller do
 
   describe "PUT #update" do
     context "with valid params" do
-      let(:new_attributes) {
-        skip("Add a hash of attributes valid for your model")
-      }
+      let(:name) { "my-super-awesome-hook" }
+
+      let(:new_attributes) do
+        {
+          name: name
+        }
+      end
 
       it "updates the requested webhook" do
         webhook = Webhook.create! valid_attributes
         put :update, params: {id: webhook.to_param, webhook: new_attributes}, session: valid_session
         webhook.reload
-        skip("Add assertions for updated state")
+        expect(webhook.name).to eq(name)
       end
 
       it "renders a JSON response with the webhook" do
