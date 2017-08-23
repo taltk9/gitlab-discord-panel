@@ -1,0 +1,16 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+
+development:
+  <<: *default
+  database: gitlab_discord_panel_dev
+
+test:
+  <<: *default
+  database: gitlab_discord_panel_test
+
+production:
+  <<: *default
+  url: <%= ENV['DATABASE_URL'] %>
